@@ -1,6 +1,6 @@
 {
   "name": "@cyanheads/eurostat-mcp-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for Eurostat — search and query 8,933 EU statistical datasets covering economy, demography, trade, health, and NUTS regional data.",
   "type": "module",
   "main": "dist/index.js",
