@@ -38,7 +38,7 @@ ENV NODE_ENV=production
 
 # OCI image metadata (https://github.com/opencontainers/image-spec/blob/main/annotations.md)
 LABEL org.opencontainers.image.title="eurostat-mcp-server"
-LABEL org.opencontainers.image.description=""
+LABEL org.opencontainers.image.description="MCP server for Eurostat — search and query 8,933 EU statistical datasets."
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 # Copy dependency manifests
