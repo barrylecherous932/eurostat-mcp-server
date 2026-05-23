@@ -6,15 +6,13 @@
 import { tool, z } from '@cyanheads/mcp-ts-core';
 import { JsonRpcErrorCode } from '@cyanheads/mcp-ts-core/errors';
 import { getEurostatDataService } from '@/services/eurostat-data/eurostat-data-service.js';
-import type { GeoLevel } from '@/services/eurostat-data/types.js';
-
-const GEO_LEVEL_VALUES = ['aggregate', 'country', 'nuts1', 'nuts2', 'nuts3'] as const;
+import { GEO_LEVEL_VALUES } from '@/services/eurostat-data/types.js';
 
 export const eurostatGetDimensionValues = tool('eurostat_get_dimension_values', {
   title: 'Get Eurostat Dimension Values',
   description:
     'List all valid values for a specific dimension in a Eurostat dataset (e.g., all unit codes for nama_10_gdp, all geo codes for a regional dataset). Use this when eurostat_get_dataset_info returns more values than the 10-item sample, or to confirm exact codes before querying. For the "geo" dimension, use geo_level to filter by NUTS hierarchy (country, nuts1, nuts2, nuts3) — country is the default. Invalid dimension_value codes passed to eurostat_query_dataset silently return no data; use this tool to verify codes first.',
-  annotations: { readOnlyHint: true },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
   input: z.object({
     dataset_code: z.string().min(1).describe('Dataset code (e.g., "nama_10_gdp").'),
     dimension: z
@@ -61,9 +59,12 @@ export const eurostatGetDimensionValues = tool('eurostat_get_dimension_values', 
 
   async handler(input, ctx) {
     const svc = getEurostatDataService();
-    const geoLevel =
-      input.geo_level && input.geo_level.trim() ? (input.geo_level as GeoLevel) : undefined;
-    const result = await svc.getDimensionValues(input.dataset_code, input.dimension, geoLevel, ctx);
+    const result = await svc.getDimensionValues(
+      input.dataset_code,
+      input.dimension,
+      input.geo_level,
+      ctx,
+    );
     ctx.log.info('Dimension values fetched', {
       datasetCode: input.dataset_code,
       dimension: input.dimension,

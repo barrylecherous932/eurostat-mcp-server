@@ -88,3 +88,12 @@ export interface QueryResult {
 }
 
 export type GeoLevel = 'aggregate' | 'country' | 'nuts1' | 'nuts2' | 'nuts3';
+
+/** Tuple of valid GeoLevel values — use with `z.enum(GEO_LEVEL_VALUES)` in tool schemas. */
+export const GEO_LEVEL_VALUES = [
+  'aggregate',
+  'country',
+  'nuts1',
+  'nuts2',
+  'nuts3',
+] as const satisfies readonly GeoLevel[];

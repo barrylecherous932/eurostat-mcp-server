@@ -11,7 +11,7 @@ export const eurostatSearchDatasets = tool('eurostat_search_datasets', {
   title: 'Search Eurostat Datasets',
   description:
     'Search the Eurostat catalogue (8,933 datasets) by keyword. Returns matching datasets with codes, descriptions, period coverage, and theme breadcrumbs. Use this to discover dataset codes before calling eurostat_get_dataset_info or eurostat_query_dataset. Results are ranked by label match and limited to datasets and predefined tables — folders are excluded. The catalogue is loaded once per session from the Eurostat TOC file.',
-  annotations: { readOnlyHint: true },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   input: z.object({
     query: z
       .string()

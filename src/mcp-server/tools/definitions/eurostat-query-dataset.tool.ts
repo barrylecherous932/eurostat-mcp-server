@@ -6,15 +6,13 @@
 import { tool, z } from '@cyanheads/mcp-ts-core';
 import { JsonRpcErrorCode } from '@cyanheads/mcp-ts-core/errors';
 import { getEurostatDataService } from '@/services/eurostat-data/eurostat-data-service.js';
-import type { GeoLevel } from '@/services/eurostat-data/types.js';
-
-const GEO_LEVEL_VALUES = ['aggregate', 'country', 'nuts1', 'nuts2', 'nuts3'] as const;
+import { GEO_LEVEL_VALUES } from '@/services/eurostat-data/types.js';
 
 export const eurostatQueryDataset = tool('eurostat_query_dataset', {
   title: 'Query Eurostat Dataset',
   description:
     'Fetch statistical data from a Eurostat dataset with dimension filters. Returns decoded observations with dimension codes and labels, numeric values, and status flags (e.g., "p" = provisional, "e" = estimated). Call eurostat_get_dataset_info first to discover valid dimension codes and values. Apply filters to keep the result set manageable — large unfiltered queries may trigger an async response error. Use filters.geo for specific country/region codes, or geo_level for NUTS hierarchy filtering (mutually exclusive). Use last_n_periods for the N most recent periods without knowing the end date.',
-  annotations: { readOnlyHint: true },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
   input: z.object({
     dataset_code: z.string().min(1).describe('Dataset code (e.g., "nama_10_gdp"). Required.'),
     filters: z
@@ -150,17 +148,13 @@ export const eurostatQueryDataset = tool('eurostat_query_dataset', {
   async handler(input, ctx) {
     const svc = getEurostatDataService();
 
-    const geoLevel =
-      input.geo_level && input.geo_level.trim() ? (input.geo_level as GeoLevel) : undefined;
-    const sinceP =
-      input.since_period && input.since_period.trim() ? input.since_period.trim() : undefined;
-    const untilP =
-      input.until_period && input.until_period.trim() ? input.until_period.trim() : undefined;
+    const sinceP = input.since_period?.trim() || undefined;
+    const untilP = input.until_period?.trim() || undefined;
 
     const result = await svc.queryDataset(
       input.dataset_code,
       input.filters,
-      geoLevel,
+      input.geo_level,
       sinceP,
       untilP,
       input.last_n_periods,
