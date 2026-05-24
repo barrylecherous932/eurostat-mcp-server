@@ -116,8 +116,8 @@ export class EurostatCatalogueService {
       const parentIndex = stackTop !== undefined ? stackTop.index : -1;
 
       const lastUpdated = cols[3] ? this.unquote(cols[3]) || undefined : undefined;
-      const dataStart = cols[5] ? this.unquote(cols[5]!) || undefined : undefined;
-      const dataEnd = cols[6] ? this.unquote(cols[6]!) || undefined : undefined;
+      const dataStart = cols[5] ? this.unquote(cols[5]!).trim() || undefined : undefined;
+      const dataEnd = cols[6] ? this.unquote(cols[6]!).trim() || undefined : undefined;
 
       // 8th column (index 7) is obs count — only present for datasets/tables
       let obsCount: number | undefined;
@@ -229,7 +229,7 @@ export class EurostatCatalogueService {
     ) {
       throw notFound(
         `Theme "${themeCode}" not found in the Eurostat TOC. Use eurostat_browse_themes without theme_code to see top-level themes, then navigate from there.`,
-        { themeCode },
+        { reason: 'not_found', themeCode },
       );
     }
     const folderIdx: number = folderIdxMaybe;
