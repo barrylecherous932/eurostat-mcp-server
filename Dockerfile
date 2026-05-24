@@ -40,6 +40,7 @@ ENV NODE_ENV=production
 LABEL org.opencontainers.image.title="eurostat-mcp-server"
 LABEL org.opencontainers.image.description="MCP server for Eurostat — search and query 8,933 EU statistical datasets."
 LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.source="https://github.com/cyanheads/eurostat-mcp-server"
 
 # Copy dependency manifests
 COPY package.json bun.lock ./

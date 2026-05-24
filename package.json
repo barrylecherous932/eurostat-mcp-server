@@ -1,6 +1,7 @@
 {
   "name": "@cyanheads/eurostat-mcp-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "mcpName": "io.github.cyanheads/eurostat-mcp-server",
   "description": "MCP server for Eurostat — search and query 8,933 EU statistical datasets covering economy, demography, trade, health, and NUTS regional data.",
   "type": "module",
   "main": "dist/index.js",
@@ -41,6 +42,10 @@
     "mcp",
     "mcp-server",
     "model-context-protocol",
+    "typescript",
+    "bun",
+    "stdio",
+    "streamable-http",
     "eurostat",
     "eu",
     "statistics",
@@ -53,9 +58,25 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cyanheads/eurostat-mcp-server"
+    "url": "git+https://github.com/cyanheads/eurostat-mcp-server.git"
   },
+  "bugs": {
+    "url": "https://github.com/cyanheads/eurostat-mcp-server/issues"
+  },
+  "homepage": "https://github.com/cyanheads/eurostat-mcp-server#readme",
+  "author": "cyanheads <casey@caseyjhand.com> (https://github.com/cyanheads/eurostat-mcp-server#readme)",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/cyanheads"
+    },
+    {
+      "type": "buy_me_a_coffee",
+      "url": "https://www.buymeacoffee.com/cyanheads"
+    }
+  ],
   "license": "Apache-2.0",
+  "packageManager": "bun@1.3.2",
   "engines": {
     "bun": ">=1.3.0",
     "node": ">=24.0.0"
