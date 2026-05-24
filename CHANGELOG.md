@@ -2,6 +2,10 @@
 
 All notable changes to this project. Each entry links to its full per-version file in [changelog/](changelog/).
 
+## [0.1.4](changelog/0.1.x/0.1.4.md) — 2026-05-23
+
+Metadata alignment: Dockerfile restored to oven/bun:1.3, package.json scripts/fields, manifest.json fields, server.json env vars, CLAUDE.md + AGENTS.md, vitest.config.ts simplified
+
 ## [0.1.3](changelog/0.1.x/0.1.3.md) — 2026-05-23
 
 Sync tagline across README, package.json, server.json, and manifest.json
