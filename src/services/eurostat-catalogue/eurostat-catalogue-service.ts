@@ -151,8 +151,13 @@ export class EurostatCatalogueService {
   }
 
   private unquote(s: string): string {
-    const t = s?.trim() ?? '';
-    if (t.startsWith('"') && t.endsWith('"')) return t.slice(1, -1).trim();
+    const t = s?.trimEnd() ?? '';
+    const trimmed = t.trimStart();
+    if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+      // Preserve leading spaces — they encode depth (4 spaces per level)
+      const leading = t.slice(0, t.length - trimmed.length);
+      return leading + trimmed.slice(1, -1);
+    }
     return t;
   }
 
