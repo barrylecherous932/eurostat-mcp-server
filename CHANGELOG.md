@@ -2,6 +2,10 @@
 
 All notable changes to this project. Each entry links to its full per-version file in [changelog/](changelog/).
 
+## [0.1.6](changelog/0.1.x/0.1.6.md) — 2026-05-24
+
+Four field-test bug fixes: obs cap (355MB crash), conflicting param validation, notFound reason field, dataStart/dataEnd whitespace
+
 ## [0.1.5](changelog/0.1.x/0.1.5.md) — 2026-05-23
 
 Added hosted server endpoint: remotes block in server.json pointing to https://eurostat.caseyjhand.com/mcp
