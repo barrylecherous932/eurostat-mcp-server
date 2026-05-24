@@ -1,6 +1,6 @@
 <div align="center">
   <h1>@cyanheads/eurostat-mcp-server</h1>
-  <p><b>Search and query Eurostat statistical data — 8,933 datasets covering EU economy, demography, trade, health, and regional NUTS data. STDIO or Streamable HTTP.</b>
+  <p><b>Search and query 8,933 Eurostat datasets — EU economy, demography, trade, health, and NUTS regional data via MCP. STDIO or Streamable HTTP.</b>
   <div>5 Tools • 1 Resource</div>
   </p>
 </div>
