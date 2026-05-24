@@ -6,7 +6,12 @@
 
 import type { Context } from '@cyanheads/mcp-ts-core';
 import type { AppConfig } from '@cyanheads/mcp-ts-core/config';
-import { invalidParams, notFound, serviceUnavailable } from '@cyanheads/mcp-ts-core/errors';
+import {
+  invalidParams,
+  McpError,
+  notFound,
+  serviceUnavailable,
+} from '@cyanheads/mcp-ts-core/errors';
 import type { StorageService } from '@cyanheads/mcp-ts-core/storage';
 import { fetchWithTimeout, withRetry } from '@cyanheads/mcp-ts-core/utils';
 import { getServerConfig } from '@/config/server-config.js';
@@ -48,9 +53,28 @@ export class EurostatDataService {
     const { requestTimeoutMs } = getServerConfig();
     return withRetry(
       async () => {
-        const response = await fetchWithTimeout(url.toString(), requestTimeoutMs, asReqCtx(ctx), {
-          signal: ctx.signal,
-        });
+        let response: Awaited<ReturnType<typeof fetchWithTimeout>>;
+        try {
+          response = await fetchWithTimeout(url.toString(), requestTimeoutMs, asReqCtx(ctx), {
+            signal: ctx.signal,
+          });
+        } catch (err) {
+          // fetchWithTimeout throws McpError for non-2xx responses before the body is parsed.
+          // Map 404s to a clean not_found rather than surfacing the raw FetchHttpError.
+          if (
+            err instanceof McpError &&
+            (err.data as Record<string, unknown> | undefined)?.['errorSource'] ===
+              'FetchHttpError' &&
+            (err.data as Record<string, unknown> | undefined)?.['statusCode'] === 404
+          ) {
+            const datasetCode = url.pathname.split('/').at(-1) ?? url.pathname;
+            throw notFound(
+              `Dataset "${decodeURIComponent(datasetCode)}" not found. Use eurostat_search_datasets or eurostat_browse_themes to find a valid dataset code.`,
+              { reason: 'not_found', datasetCode: decodeURIComponent(datasetCode) },
+            );
+          }
+          throw err;
+        }
         const text = await response.text();
         if (/^\s*<(!DOCTYPE\s+html|html[\s>])/i.test(text)) {
           throw serviceUnavailable(
@@ -331,8 +355,18 @@ export class EurostatDataService {
     const observations = this.decodeObservations(data);
     const missingObsCount = observations.filter((o) => o.value === null).length;
 
+    // Compute timeRange from the actual time dimension values in the response.
+    // Fall back to dataset-wide annotations only when no time dimension is present.
     const oldest = this.extractAnnotation(data, 'OBS_PERIOD_OVERALL_OLDEST', 'title') ?? '';
     const latest = this.extractAnnotation(data, 'OBS_PERIOD_OVERALL_LATEST', 'title') ?? '';
+    const timeCodes = observations
+      .map((o) => (o.dimensions as Record<string, { code: string } | undefined>)['time']?.code)
+      .filter((c): c is string => c !== undefined)
+      .sort();
+    const timeRange = {
+      start: timeCodes[0] ?? oldest,
+      end: timeCodes[timeCodes.length - 1] ?? latest,
+    };
 
     return {
       datasetCode,
@@ -340,7 +374,7 @@ export class EurostatDataService {
       dimensionsUsed: data.id ?? [],
       observations,
       obsCount: observations.length,
-      timeRange: { start: oldest, end: latest },
+      timeRange,
       missingObsCount,
     };
   }
