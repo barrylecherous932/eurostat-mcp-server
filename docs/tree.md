@@ -1,6 +1,6 @@
 # eurostat-mcp-server - Directory Structure
 
-Generated on: 2026-05-23 18:11:08
+Generated on: 2026-05-24 02:30:39
 
 ```text
 eurostat-mcp-server/
@@ -142,6 +142,7 @@ eurostat-mcp-server/
 ├── .mcpbignore
 ├── biome.json
 ├── bun.lock
+├── bunfig.toml
 ├── CHANGELOG.md
 ├── CLAUDE.md
 ├── devcheck.config.json
