@@ -2,6 +2,10 @@
 
 All notable changes to this project. Each entry links to its full per-version file in [changelog/](changelog/).
 
+## [0.1.9](changelog/0.1.x/0.1.9.md) — 2026-05-30
+
+Enrichment adoption — search/browse/query tools surface query echoes, result totals, and empty-result guidance via typed enrichment block; mcp-ts-core ^0.9.13 → ^0.9.16
+
 ## [0.1.8](changelog/0.1.x/0.1.8.md) — 2026-05-28
 
 mcp-ts-core ^0.9.9 → ^0.9.13: 413 body cap, session-init gate, quieter expected-error logs, GET /mcp keywords; skill sync, plugin metadata scaffolding
